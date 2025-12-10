@@ -61,3 +61,11 @@ Pricing reflects current standard plans (free tiers where available; enterprise/
 | **Bubble** | Website/App Builder | Visual AI builder for scalable apps; drag-and-drop with prompt-based logic. Veteran no-code tool enhanced for vibe workflows. | Free tier; Starter: $29/month. |
 | **Hostinger Horizons** | Website/App Builder | AI chat for full web apps (front/back-end); beginner-friendly with hosting/domain integration. Cuts dev time by 90% for simple sites. | Free trial; Premium: $2.99/month (intro). |
 
+  For `Git-Bash` CLI :
+  ```BASH
+  pyenv local 3.11.3
+  python -m venv .venv
+  source .venv/bin/activate
+  python -m pip install --upgrade pip
+  pip install -r requirements.txt
+  ```
