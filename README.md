@@ -93,7 +93,7 @@ Pricing reflects current standard plans (free tiers where available; enterprise/
   pip install -r requirements.txt
   ```
 
-# End-to-end ML → API → Streamlit
+# End-to-end LLM (groq) → API → Streamlit
 
 ## Run the Streamlit labs (UI patterns)
   - run streamlit_app.py: `streamlit run ./streamlit_app.py`
