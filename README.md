@@ -61,6 +61,9 @@ Pricing reflects current standard plans (free tiers where available; enterprise/
 | **Bubble** | Website/App Builder | Visual AI builder for scalable apps; drag-and-drop with prompt-based logic. Veteran no-code tool enhanced for vibe workflows. | Free tier; Starter: $29/month. |
 | **Hostinger Horizons** | Website/App Builder | AI chat for full web apps (front/back-end); beginner-friendly with hosting/domain integration. Cuts dev time by 90% for simple sites. | Free trial; Premium: $2.99/month (intro). |
 
+
+# Create virtual env
+
   For `Git-Bash` CLI :
   ```BASH
   pyenv local 3.11.3
@@ -69,3 +72,28 @@ Pricing reflects current standard plans (free tiers where available; enterprise/
   python -m pip install --upgrade pip
   pip install -r requirements.txt
   ```
+
+# End-to-end ML → API → Streamlit
+
+## Run the Streamlit labs (UI patterns)
+  - run streamlit_app.py: `streamlit run ./streamlit_app.py`
+  - access it: 
+    http://localhost:8501/
+
+## Run the FastAPI
+  - short via: `python ./api/main.py `
+  - direct: `uvicorn api.main:app --reload --port 8001`
+  - Test:
+    ```bash
+      curl -X 'POST http://0.0.0.0:8001/generate' \
+        -H 'accept: application/json' \
+        -H 'Content-Type: application/json' \
+        -d '{"prompt": "string"}'
+    ```
+  - access the fastAPI:
+      http://0.0.0.0:8001/docs
+
+3) Query from Streamlit
+   - `streamlit run ml_api_demo/streamlit_api_client.py`
+   - Point the client at `http://127.0.0.1:8001` and send predictions.
+

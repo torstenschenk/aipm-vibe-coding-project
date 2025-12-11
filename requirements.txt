@@ -1,0 +1,8 @@
+streamlit
+pandas
+requests
+fastapi
+uvicorn
+scikit-learn
+dotenv
+groq
