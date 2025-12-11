@@ -63,6 +63,12 @@ Pricing reflects current standard plans (free tiers where available; enterprise/
 
 # Project description
 
+  - fun idea: 
+
+    `After creating the app, reverse engineer a prompt and run it again on empty repo. Will there be different errors?` 
+
+
+
   - battling language models
   - user inputs a sentence
   - models shall battle pro/contra
@@ -72,6 +78,11 @@ Pricing reflects current standard plans (free tiers where available; enterprise/
 
   - MVP vibe: create webapp with single llm interface
   - MVP vibe: display results from llm
+
+  - Outcome:
+    `MVP runs! OK`
+    
+    `On prompt reverse engineering the same error occurred: not available llm  was choosen "llama3-70b-8192"`
 
 # Create virtual env
 

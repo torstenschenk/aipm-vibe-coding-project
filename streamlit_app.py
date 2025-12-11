@@ -1,5 +1,5 @@
 import os
-from typing import List
+from typing import List, Dict
 
 import requests
 import streamlit as st
@@ -7,61 +7,58 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-API_BASE_URL = os.getenv("FASTAPI_BASE_URL", "http://localhost:8001")
-GENERATE_ENDPOINT = f"{API_BASE_URL.rstrip('/')}/generate"
+FASTAPI_BASE_URL = os.getenv("FASTAPI_BASE_URL", "http://localhost:8001").rstrip("/")
+GENERATE_ENDPOINT = f"{FASTAPI_BASE_URL}/generate"
 
-st.set_page_config(page_title="Groq Streamlit Demo", layout="centered")
+st.set_page_config(page_title="Groq Chat Relay", layout="centered")
 st.title("Groq Chat Relay")
 
 if "messages" not in st.session_state:
-    st.session_state.messages: List[dict] = []
+    st.session_state.messages: List[Dict[str, str]] = []
 
 st.markdown(
     """
     <style>
-        .result-pane {
+        .history-pane {
+            background-color: #f9fafb;
+            color: #111827;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
             max-height: 320px;
             overflow-y: auto;
-            padding: 1rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            background-color: #f9fafb;
-            color: #0f172a;
         }
-        .result-pane p {
-            margin-bottom: 0.5rem;
+        .history-pane p {
+            margin-bottom: 12px;
         }
-        .result-pane hr {
-            border: none;
-            border-top: 1px solid #cbd5f5;
-            margin: 0.75rem 0;
+        .history-pane span {
+            font-weight: 600;
         }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-history_html = ""
-for entry in reversed(st.session_state.messages):
-    history_html += (
-        f"<p><strong>You:</strong> {entry['prompt']}</p>"
-        f"<p><strong>Groq:</strong> {entry['response']}</p><hr />"
-    )
+history = reversed(st.session_state.messages)
+history_html = "".join(
+    f"<p><span>You:</span> {entry['prompt']}</p>"
+    f"<p><span>Groq:</span> {entry['response']}</p>"
+    for entry in history
+)
 
 st.markdown(
-    f"<div class='result-pane'>{history_html or 'Awaiting your first prompt.'}</div>",
+    f'<div class="history-pane">{history_html or "<p>No messages yet.</p>"}</div>',
     unsafe_allow_html=True,
 )
 
-with st.form("prompt_form"):
-    prompt = st.text_input("Ask the model", placeholder="Type your message here...")
+with st.form("prompt-form"):
+    prompt = st.text_input("Enter your prompt")
     submitted = st.form_submit_button("Send")
 
-if submitted:
-    if not prompt.strip():
-        st.warning("Please enter a prompt before sending.")
-    else:
-        with st.spinner("Contacting FastAPI backend…"):
+    if submitted:
+        if not prompt.strip():
+            st.error("Please enter a prompt before sending.")
+        else:
             try:
                 response = requests.post(
                     GENERATE_ENDPOINT,
@@ -70,11 +67,11 @@ if submitted:
                 )
                 response.raise_for_status()
                 data = response.json()
-                answer = data.get("result", "(No content returned)")
+                result = data.get("result")
+                if not result:
+                    st.error("FastAPI did not return a result.")
+                else:
+                    st.session_state.messages.append({"prompt": prompt, "response": result})
+                    st.rerun()
             except requests.RequestException as exc:
                 st.error(f"Request failed: {exc}")
-            else:
-                st.session_state.messages.append(
-                    {"prompt": prompt.strip(), "response": answer.strip()}
-                )
-                st.rerun()

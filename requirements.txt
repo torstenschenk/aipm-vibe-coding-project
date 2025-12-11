@@ -1,8 +1,6 @@
-streamlit
-pandas
-requests
 fastapi
-uvicorn
-scikit-learn
-dotenv
 groq
+python-dotenv
+requests
+streamlit
+uvicorn
