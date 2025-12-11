@@ -2,6 +2,26 @@
 
 Build and present a small, end-to-end application in groups of 2–3 using the [vibe-coding tools](#popular-vibe-coding-tools). The goal is rapid, AI-assisted delivery with clear prompts, minimal hand-coding, and a tight presentation.
 
+## Quickstart
+
+1. Create and activate a virtual environment:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate
+   python -m pip install --upgrade pip
+   pip install -r requirements.txt
+   ```
+2. Copy `.env.example` to `.env`, then add your `GROQ_API_KEY`. Optionally set `FASTAPI_BASE_URL` if the FastAPI service runs somewhere other than `http://localhost:8001`.
+3. Start the FastAPI backend (port 8001 matches the Streamlit default):
+   ```bash
+   uvicorn api.main:app --reload --port 8001
+   ```
+4. In a second terminal, run the Streamlit client:
+   ```bash
+   streamlit run streamlit_app.py
+   ```
+5. Visit the Streamlit UI (default http://localhost:8501) to chat through the proxy. The client relays prompts to the FastAPI service, which calls Groq’s `llama3-70b-8192` model.
+
 ### What to build
 - Pick a simple but end-to-end app (e.g., habit tracker, mini ticket board, event RSVP, micro SaaS landing with signup). This can be a chance to prototype your capstone idea—don’t over-hunt for data. 
 - Scope for 1–2 core user journeys; keep the rest as stretch goals.
@@ -96,4 +116,3 @@ Pricing reflects current standard plans (free tiers where available; enterprise/
 3) Query from Streamlit
    - `streamlit run ml_api_demo/streamlit_api_client.py`
    - Point the client at `http://127.0.0.1:8001` and send predictions.
-
