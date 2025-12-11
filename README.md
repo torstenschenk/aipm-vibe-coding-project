@@ -67,8 +67,6 @@ Pricing reflects current standard plans (free tiers where available; enterprise/
 
     `After creating the app, reverse engineer a prompt and run it again on empty repo. Will there be different errors?` 
 
-
-
   - battling language models
   - user inputs a sentence
   - models shall battle pro/contra
